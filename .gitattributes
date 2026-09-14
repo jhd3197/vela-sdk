@@ -1,0 +1,6 @@
+* text=auto eol=lf
+*.png binary
+*.zip binary
+*.tgz binary
+manifest-v2.schema.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+vela.js -text

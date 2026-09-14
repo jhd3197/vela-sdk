@@ -1,0 +1,26 @@
+{
+  "name": "@vela/sdk",
+  "version": "0.5.0",
+  "type": "module",
+  "exports": {
+    ".": "./vela.js"
+  },
+  "files": [
+    "vela.js",
+    "README.md"
+  ],
+  "license": "MIT",
+  "description": "Browser SDK for secure Vela app storage, connections and actions.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jhd3197/vela-sdk.git"
+  },
+  "homepage": "https://github.com/jhd3197/vela-sdk#readme",
+  "bugs": {
+    "url": "https://github.com/jhd3197/vela-sdk/issues"
+  },
+  "funding": "https://github.com/sponsors/jhd3197",
+  "publishConfig": {
+    "access": "public"
+  }
+}
