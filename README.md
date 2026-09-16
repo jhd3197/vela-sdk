@@ -84,6 +84,32 @@ Both installation identities and manifest fingerprints bind grants; changes
 require fresh host approval. Calls have a two-second transaction deadline and
 32 KiB input limit. The host shows metadata-only success/failure activity.
 
+## Desk widgets
+
+Declare the `widgets` capability and up to four `widgets` entries in the
+manifest, then publish a summary for one of them whenever the app has something
+new to say:
+
+```js
+await Vela.widgets.publish('sync', {
+  value: '73',
+  unit: 'changes',
+  caption: 'queued since 02:14',
+  attention: true,
+});
+```
+
+The host renders the summary with its own components, always labelled with the
+app it came from; no app code runs on the desk. A summary is a flat JSON object
+of at most 4 KB: `value`, `unit`, `delta` and `caption` are strings of at most
+200 characters, `progress` is 0-100, `rows` is up to eight `{label, detail}`
+pairs, `actions` is up to three `{action, label}` naming the app's own granted
+actions, `attention` is a boolean the rail reads, and `expiresAt` is an ISO 8601
+timestamp after which the host marks the summary stale. Anything else is
+refused: 403 without the grant, 422 for an unknown widget id or a bad field, 413
+over the size limit. Publishing `{}` is valid and means "nothing to report yet".
+Summaries are removed when the app is uninstalled.
+
 ## Downloads
 
 [GitHub Releases](https://github.com/jhd3197/vela-sdk/releases/latest) contain the

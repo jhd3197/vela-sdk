@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### Added
+
+- `Vela.widgets.publish(id, summary)` for apps that declare the `widgets`
+  capability: publishes a small JSON summary of one declared widget, which the
+  Vela desk renders with its own components. See "Desk widgets" in the README
+  for the payload and its limits.
+
 ## 0.5.0 - 2026-09-14
 
 ### Added
