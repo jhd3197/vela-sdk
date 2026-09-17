@@ -42,6 +42,45 @@ The host bridge lives in Vela's `web/src/bridge/host.js` and stays in the hub bu
 App sessions expire after one hour and are revoked when the view closes or the
 app is uninstalled. Reopen a view to obtain a fresh session.
 
+## Changes that need a person
+
+Most requests answer in milliseconds, and the SDK gives them ten seconds before
+deciding the host is not there. Some do not: when an app runs on a Vela desktop
+an agent is working in, a change may need the server's owner to approve it, and
+that is a person walking back to their computer rather than a slow response.
+
+The SDK announces an `approvals` feature in its handshake. A host that supports
+it answers such a request with `vela:pending` instead of a result, the SDK
+extends that request's deadline to the one Vela set on the question, and the
+original promise stays open. It resolves with the real result once the change is
+made, or rejects with `status` 403 when the owner said no and 409 when the
+request expired or was cancelled. A host that does not know the feature, or an
+older SDK that does not announce it, behaves exactly as before — the protocol
+number is unchanged.
+
+```js
+Vela.onApprovalNeeded(({ summary, expiresAt }) => {
+  banner.textContent = summary.headline; // "Notes wants to save a change."
+});
+try {
+  await Vela.storage.write(draft, revision);
+} catch (error) {
+  if (error.status === 403) banner.textContent = 'That change was not approved.';
+}
+```
+
+`onApprovalNeeded` is for display only, and `Vela.waitingForApproval` says
+whether anything currently is. Nothing an app does approves anything: a request
+is resolved by the owner, in Vela's own controls, on a route no app session can
+reach. If the app's own deadline passes first the SDK tells the host to withdraw
+the question, so a prompt is never left on somebody's screen with nothing behind
+it — and an answer given after that point resolves nothing.
+
+Design an app so that a refused or expired change is survivable: keep the draft,
+say what happened, and let the person retry. Where an operation can be expressed
+as a declared action, prefer that — it is validated, receipted, and safe to
+retry with the same request key.
+
 The SDK also provides `storage.backup()`, `storage.snapshots()`,
 `storage.restore(snapshotId, expectedRevision)` and `storage.export()` (downloads
 the saved document through the host). Restore requires the current revision and
