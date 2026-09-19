@@ -4,6 +4,17 @@
 
 ### Added
 
+- **`Vela.topbar.publish(items)`.** An app with the `topbar` capability can put
+  up to three small status items in Vela's top bar while its window is open — a
+  temperature, a queue depth, a connection state. Each item is
+  `{ id, icon?, label?, title?, tone? }`: plain data, drawn by the host from its
+  own icon set, never markup and never a URL. Publishing replaces the previous
+  list, so an empty array takes the items down, and closing the window takes
+  them down as well. Like widgets, the items are not persisted: republish them
+  from `Vela.ready`. Whether the capability was granted is already in
+  `Vela.context.capabilities`; a host that does not support the verb answers
+  the request with "Operation is not granted" rather than failing the app.
+
 - **A request can wait for a person.** Ten seconds is right for "the host is
   there"; it is wrong for "somebody has been asked whether this change may
   happen". The SDK now announces an `approvals` feature in its handshake, and a
