@@ -4,6 +4,14 @@
 
 ### Added
 
+- **`Vela.surfaces.open({ source, title? })`.** An app with the `surfaces`
+  capability can open a desktop window that draws a surface document fetched
+  through its own `http` connection. The app supplies only a
+  connection-relative `source` path, which the host validates against the
+  connection's manifest path rules, and an optional `title`; the host fills in
+  the calling app's id, fetches the JSON document itself, and draws the
+  window — data, never markup.
+
 - **`Vela.navigation.openLink(url)`.** An app with an `http` connection can
   open an https link on that service's site in a new browser tab, such as a
   pull request on `github.com` for an app connected to `api.github.com`. The

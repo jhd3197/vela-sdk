@@ -39,6 +39,13 @@ frame cannot open windows itself, so the host does it, and only for links on
 the site of the app's `http` connection: a connection to `api.github.com`
 allows `github.com` and its subdomains. Anything else is refused with 403.
 
+`surfaces.open({ source, title? })` opens a desktop window that draws a surface
+document — plain JSON, never markup. It requires the `surfaces` capability.
+`source` is a connection-relative path such as `/api/v1/server-gui/srv-1`; the
+host validates it against the app's `http` connection path rules, fills in the
+calling app's id, fetches the document through that connection, and draws the
+window itself.
+
 Protocol 1 uses a `vela:ready`/`vela:init` handshake, source-window and origin
 checks, a fresh nonce per view, request IDs, an operation allowlist, and timeouts.
 The host requires the frame's origin to be `null` (an opaque sandbox origin).
