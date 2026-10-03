@@ -4,6 +4,11 @@
 
 ### Added
 
+- **`Vela.navigation.openLink(url)`.** An app with an `http` connection can
+  open an https link on that service's site in a new browser tab, such as a
+  pull request on `github.com` for an app connected to `api.github.com`. The
+  host refuses links to any other site.
+
 - **`Vela.topbar.publish(items)`.** An app with the `topbar` capability can put
   up to three small status items in Vela's top bar while its window is open — a
   temperature, a queue depth, a connection state. Each item is

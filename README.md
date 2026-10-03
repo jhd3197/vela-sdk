@@ -34,6 +34,11 @@ handler; `setUnsavedChanges` informs host navigation. Close/return only close th
 view. The host can discard and leave if saving times out. Browser refresh/close
 uses the browser's native unsaved-work warning.
 
+`navigation.openLink(url)` opens an https link in a new browser tab. The app's
+frame cannot open windows itself, so the host does it, and only for links on
+the site of the app's `http` connection: a connection to `api.github.com`
+allows `github.com` and its subdomains. Anything else is refused with 403.
+
 Protocol 1 uses a `vela:ready`/`vela:init` handshake, source-window and origin
 checks, a fresh nonce per view, request IDs, an operation allowlist, and timeouts.
 The host requires the frame's origin to be `null` (an opaque sandbox origin).
